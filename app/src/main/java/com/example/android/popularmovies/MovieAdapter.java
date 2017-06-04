@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         ImageView movieImage = (ImageView) gridItemView.findViewById(R.id.movie_image);
         //movieImage.setImageResource(currentMovie.getImageUrl());
+
+        TextView movieText = (TextView) gridItemView.findViewById(R.id.tv_title);
+        movieText.setText(currentMovie.getTitle());
 
         return gridItemView;
     }

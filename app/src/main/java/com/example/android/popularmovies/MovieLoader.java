@@ -1,9 +1,11 @@
 package com.example.android.popularmovies;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
 
 import java.util.List;
+
+//import android.support.v4.content.AsyncTaskLoader;
 
 /**
  * Created by anas on 04.06.17.
