@@ -1,12 +1,14 @@
 package com.example.android.popularmovies;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,10 +42,17 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         // Find the ImageView with the ID: movie_image
 
         ImageView movieImage = (ImageView) gridItemView.findViewById(R.id.movie_image);
+
+        String posterPath = currentMovie.getImageUrl();
+
+        String fullImagePath = "http://image.tmdb.org/t/p/w342" + posterPath;
+
+        Picasso.with(getContext()).load(fullImagePath).into(movieImage);
+
+        Log.v("MovieAdapter", fullImagePath);
+
         //movieImage.setImageResource(currentMovie.getImageUrl());
 
-        TextView movieText = (TextView) gridItemView.findViewById(R.id.tv_title);
-        movieText.setText(currentMovie.getTitle());
 
         return gridItemView;
     }
