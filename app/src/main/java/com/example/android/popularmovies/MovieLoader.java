@@ -5,8 +5,6 @@ import android.content.Context;
 
 import java.util.List;
 
-//import android.support.v4.content.AsyncTaskLoader;
-
 /**
  * Created by anas on 04.06.17.
  */
