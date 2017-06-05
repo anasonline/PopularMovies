@@ -30,15 +30,12 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    public static List<Movie> fetchMovieData(String requestUrl) {
-
-        // Create URL object
-        URL url = createUrl(requestUrl);
+    public static List<Movie> fetchMovieData(URL requestUrl) {
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
-            jsonResponse = makeHttpRequest(url);
+            jsonResponse = makeHttpRequest(requestUrl);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }

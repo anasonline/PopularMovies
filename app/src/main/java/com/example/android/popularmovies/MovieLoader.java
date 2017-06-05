@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -12,9 +13,9 @@ import java.util.List;
 public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     // Query URL
-    private String mUrl;
+    private URL mUrl;
 
-    public MovieLoader(Context context, String url) {
+    public MovieLoader(Context context, URL url) {
         super(context);
         mUrl = url;
     }
