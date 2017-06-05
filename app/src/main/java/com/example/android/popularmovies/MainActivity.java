@@ -15,7 +15,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     private MovieAdapter mAdapter;
     private GridView mGridView;
+
+    private TextView mErrorMessageDisplay;
+    private ProgressBar mLoadingIndicator;
 
     private String mSortBy;
 
@@ -64,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+
+        mLoadingIndicator.setVisibility(View.VISIBLE);
 
         mSortBy = POPULAR; //The default value is to sort movies by (popular)
 
@@ -98,9 +110,16 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
         } else {
 
+            showErrorMessage();
+
             Log.v("MainActivity", "Loading Error");
         }
 
+    }
+
+    public void showErrorMessage() {
+        mLoadingIndicator.setVisibility(View.GONE);
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -112,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
+
+        mLoadingIndicator.setVisibility(View.GONE);
+
         // Clear the adapter of previous movie data
         mAdapter.clear();
 
@@ -152,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 actionBar.setTitle("Top Rated");
                 mSortBy = TOP_RATED;
                 mAdapter.clear();
+                mLoadingIndicator.setVisibility(View.VISIBLE);
                 getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
                 return true;
 
