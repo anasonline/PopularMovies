@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -114,6 +116,26 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
             Log.v("MainActivity", "Loading Error");
         }
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Find the current news item that was clicked on
+                Movie currentMovie = mAdapter.getItem(position);
+
+                Intent intent = new Intent(MainActivity.this, MovieDetail.class);
+
+                intent.putExtra("title", currentMovie.getTitle());
+                intent.putExtra("release_date", currentMovie.getReleaseDate());
+                intent.putExtra("rating", currentMovie.getRating());
+                intent.putExtra("plot", currentMovie.getPlot());
+                intent.putExtra("poster_image", currentMovie.getPosterImageUrl());
+                intent.putExtra("backdrop_image", currentMovie.getBackDropImageUrl());
+
+                startActivity(intent);
+
+            }
+        });
 
     }
 

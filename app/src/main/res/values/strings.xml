@@ -7,4 +7,9 @@
 
     <string name="error_message">An error has occurred.</string>
 
+    <string-array name="sort_order_menu_values">
+        <item>Popular</item>
+        <item>Top rated</item>
+    </string-array>
+
 </resources>

@@ -43,7 +43,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         ImageView movieImage = (ImageView) gridItemView.findViewById(R.id.movie_image);
 
-        String posterPath = currentMovie.getImageUrl();
+        String posterPath = currentMovie.getPosterImageUrl();
 
         String fullImagePath = "http://image.tmdb.org/t/p/w342" + posterPath;
 

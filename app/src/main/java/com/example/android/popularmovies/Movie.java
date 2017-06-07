@@ -7,14 +7,17 @@ package com.example.android.popularmovies;
 public class Movie {
 
     private String mTitle;
-    private String mImageUrl;
+    private String mPosterImageUrl;
+    private String mBackdropImageUrl;
     private String mReleaseDate;
     private String mPlot;
     private String mRating;
 
-    public Movie(String title, String imageUrl, String releaseDate, String plot, String rating) {
+    public Movie(String title, String posterImageUrl, String backdropImageUrl, String releaseDate,
+                 String plot, String rating) {
         mTitle = title;
-        mImageUrl = imageUrl;
+        mPosterImageUrl = posterImageUrl;
+        mBackdropImageUrl = backdropImageUrl;
         mReleaseDate = releaseDate;
         mPlot = plot;
         mRating = rating;
@@ -24,8 +27,12 @@ public class Movie {
         return mTitle;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public String getPosterImageUrl() {
+        return mPosterImageUrl;
+    }
+
+    public String getBackDropImageUrl() {
+        return mBackdropImageUrl;
     }
 
     public String getReleaseDate() {

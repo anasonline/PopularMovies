@@ -154,8 +154,11 @@ public final class QueryUtils {
 
                 JSONObject currentMovie = resultsArray.getJSONObject(i);
 
-                // Extract the value of the key "poster_path" (the image)
-                String imageUrl = currentMovie.getString("poster_path");
+                // Extract the value of the key "poster_path"
+                String posterImageUrl = currentMovie.getString("poster_path");
+
+                // Extract the value of the key "backdrop_path"
+                String backdropImageUrl = currentMovie.getString("backdrop_path");
 
                 // Extract the value of the key "overview"
                 String plot = currentMovie.getString("overview");
@@ -170,7 +173,7 @@ public final class QueryUtils {
                 String rating = currentMovie.getString("vote_average");
 
                 // Create a new movie object with the data extracted from JSON response
-                Movie movie = new Movie(title, imageUrl, releaseDate, plot, rating);
+                Movie movie = new Movie(title, posterImageUrl, backdropImageUrl, releaseDate, plot, rating);
 
                 // Add the new Movie to the list of movies
                 movies.add(movie);
