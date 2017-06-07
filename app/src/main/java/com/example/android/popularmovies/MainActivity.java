@@ -5,7 +5,6 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -27,8 +26,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Movie>>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Movie>> {
 
     private static final int MOVIE_LOADER_ID = 1; // Constant value for the Movie loader ID.
 
@@ -104,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
             // Get a reference to the LoaderManager, in order to interact with loaders.
             LoaderManager loaderManager = getLoaderManager();
 
-
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
             // because this activity implements the LoaderCallbacks interface).
@@ -133,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 intent.putExtra("backdrop_image", currentMovie.getBackDropImageUrl());
 
                 startActivity(intent);
-
             }
         });
 
@@ -184,12 +180,11 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //int id = item.getItemId();
         ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
             case R.id.sort_by_top_rated:
 
-                if (item.isChecked() == false) {
+                if (item.isChecked()) {
                     item.setChecked(true);
                 }
 
@@ -202,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
             case R.id.sorty_by_popular:
 
-                if (item.isChecked() == false) {
+                if (!item.isChecked()) {
                     item.setChecked(true);
                 }
                 actionBar.setTitle("Popular");
@@ -214,18 +209,4 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(getString(R.string.menu_popular)) ||
-                key.equals(getString(R.string.menu_top_rated))) {
-            // Clear the ListView as a new query will be kicked off
-            mAdapter.clear();
-
-
-            // Restart the loader to requery the USGS as the query settings have been updated
-            getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
-        }
-    }
 }
-

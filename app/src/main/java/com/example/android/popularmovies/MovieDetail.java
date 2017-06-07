@@ -1,6 +1,5 @@
 package com.example.android.popularmovies;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -10,53 +9,57 @@ import com.squareup.picasso.Picasso;
 
 public class MovieDetail extends AppCompatActivity {
 
-    TextView mTitle;
-    ImageView mPoster;
-    ImageView mBackdrop;
-    TextView mReleaseDate;
-    TextView mPlot;
-    TextView mPlotText;
-    TextView mRating;
+    private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/";
+    private static final String POSTER_SIZE = "w185";
+    private static final String BACKDROP_SIZE = "w780";
+    TextView mTitleTextView;
+    ImageView mPosterImageView;
+    ImageView mBackdropImageView;
+    TextView mReleaseDateTextView;
+    TextView mPlotTextView;
+    TextView mPlotTextTextView;
+    TextView mRatingTextView;
+    String mPosterPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        // Find the views used to display movie information
+        mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
+        mPlotTextView = (TextView) findViewById(R.id.tv_plot);
+        mPlotTextTextView = (TextView) findViewById(R.id.tv_plot_text);
+        mRatingTextView = (TextView) findViewById(R.id.tv_rating);
+        mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
+        mBackdropImageView = (ImageView) findViewById(R.id.iv_backdrop);
 
-        mTitle = (TextView) findViewById(R.id.tv_title);
-        mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
-        mPlot = (TextView) findViewById(R.id.tv_plot);
-        mPlotText = (TextView) findViewById(R.id.tv_plot_text);
-        mRating = (TextView) findViewById(R.id.tv_rating);
-        mPoster = (ImageView) findViewById(R.id.iv_poster);
-        mBackdrop = (ImageView) findViewById(R.id.iv_backdrop);
+        // Get the movie data from the intent, add it into a bundle object,
+        Bundle movieData = getIntent().getExtras();
 
-        Intent intentThatStartedThisActivity = getIntent();
+        String title = movieData.getString("title");
+        String releaseDate = movieData.getString("release_date");
+        String rating = movieData.getString("rating");
+        String plot = movieData.getString("plot");
+        String backDropPath = movieData.getString("backdrop_image");
+        String posterPath = movieData.getString("poster_image");
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mTitle.setText(extras.getString("title"));
-            mReleaseDate.setText(extras.getString("release_date"));
+        // Change the ActionBar's title to the movie title
+        getSupportActionBar().setTitle(title);
 
-            String backDropPath = extras.getString("backdrop_image");
+        // Add movie information into their respective views
+        mTitleTextView.setText(title);
+        mReleaseDateTextView.setText(releaseDate);
+        mRatingTextView.setText(rating);
+        mPlotTextTextView.setText(plot);
 
-            String fullImagePath = "http://image.tmdb.org/t/p/w780" + backDropPath;
+        // Get backdrop path and load the image with Picasso
+        String fullBackdropPath = BASE_IMAGE_URL + BACKDROP_SIZE + backDropPath;
+        Picasso.with(MovieDetail.this).load(fullBackdropPath).into(mBackdropImageView);
 
-            Picasso.with(MovieDetail.this).load(fullImagePath).into(mBackdrop);
-
-            String posterPath = extras.getString("poster_image");
-
-            String fullPosterPath = "http://image.tmdb.org/t/p/w185" + posterPath;
-
-            Picasso.with(MovieDetail.this).load(fullPosterPath).into(mPoster);
-
-            mRating.setText(extras.getString("rating"));
-            mPlotText.setText(extras.getString("plot"));
-
-
-        }
-
-
+        // Get poster path and load the image with Picasso
+        String fullPosterPath = BASE_IMAGE_URL + POSTER_SIZE + posterPath;
+        Picasso.with(MovieDetail.this).load(fullPosterPath).into(mPosterImageView);
     }
 }
