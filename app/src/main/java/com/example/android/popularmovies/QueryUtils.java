@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by anas on 04.06.17.
  */
 
-public final class QueryUtils {
+final class QueryUtils {
 
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
@@ -40,21 +39,9 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of movies
-        List<Movie> movies = extractFeatureFromJson(jsonResponse);
+        // Extract relevant fields from the JSON response, create a list of movies and return it
 
-        return movies;
-    }
-
-    // Returns new URL object from the given string URL.
-    private static URL createUrl(String stringUrl) {
-        URL url = null;
-        try {
-            url = new URL(stringUrl);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
-        }
-        return url;
+        return extractFeatureFromJson(jsonResponse);
     }
 
     // Make an HTTP request to the given URL and return a String as the response.
@@ -119,14 +106,6 @@ public final class QueryUtils {
     // Return a list of Moview objects that has been built up from parsing the given JSON response.
 
     private static List<Movie> extractFeatureFromJson(String movieJSON) {
-        /**
-
-         try {
-         Thread.sleep(2000);
-         } catch (InterruptedException e) {
-         e.printStackTrace();
-         }
-         */
 
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(movieJSON)) {

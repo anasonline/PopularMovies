@@ -10,10 +10,10 @@ import java.util.List;
  * Created by anas on 04.06.17.
  */
 
-public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
+class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     // Query URL
-    private URL mUrl;
+    private final URL mUrl;
 
     public MovieLoader(Context context, URL url) {
         super(context);
@@ -31,7 +31,6 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
             return null;
         }
 
-        List<Movie> movies = QueryUtils.fetchMovieData(mUrl);
-        return movies;
+        return QueryUtils.fetchMovieData(mUrl);
     }
 }

@@ -12,14 +12,6 @@ public class MovieDetail extends AppCompatActivity {
     private static final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/";
     private static final String POSTER_SIZE = "w185";
     private static final String BACKDROP_SIZE = "w780";
-    TextView mTitleTextView;
-    ImageView mPosterImageView;
-    ImageView mBackdropImageView;
-    TextView mReleaseDateTextView;
-    TextView mPlotTextView;
-    TextView mPlotTextTextView;
-    TextView mRatingTextView;
-    String mPosterPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +19,31 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         // Find the views used to display movie information
-        mTitleTextView = (TextView) findViewById(R.id.tv_title);
-        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
-        mPlotTextView = (TextView) findViewById(R.id.tv_plot);
-        mPlotTextTextView = (TextView) findViewById(R.id.tv_plot_text);
-        mRatingTextView = (TextView) findViewById(R.id.tv_rating);
-        mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
-        mBackdropImageView = (ImageView) findViewById(R.id.iv_backdrop);
+        TextView mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        TextView mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
+        TextView mPlotTextTextView = (TextView) findViewById(R.id.tv_plot_text);
+        TextView mRatingTextView = (TextView) findViewById(R.id.tv_rating);
+        ImageView mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
+        ImageView mBackdropImageView = (ImageView) findViewById(R.id.iv_backdrop);
 
-        // Get the movie data from the intent, add it into a bundle object,
-        Bundle movieData = getIntent().getExtras();
+        // Get the movie data from the intent (as a Parcelable object, add it into a bundle object,
 
-        String title = movieData.getString("title");
-        String releaseDate = movieData.getString("release_date");
-        String rating = movieData.getString("rating");
-        String plot = movieData.getString("plot");
-        String backDropPath = movieData.getString("backdrop_image");
-        String posterPath = movieData.getString("poster_image");
+        Movie movieData = getIntent().getExtras().getParcelable("EXTRA_MOVIE");
 
-        // Change the ActionBar's title to the movie title
-        getSupportActionBar().setTitle(title);
+        if (movieData != null) {
+
+            String title = movieData.getTitle();
+            String releaseDate = movieData.getReleaseDate();
+            String rating = movieData.getRating();
+            String plot = movieData.getPlot();
+            String backDropPath = movieData.getBackDropImageUrl();
+            String posterPath = movieData.getPosterImageUrl();
+
+            // Change the ActionBar's title to the movie title
+
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(title);
+            }
 
         // Add movie information into their respective views
         mTitleTextView.setText(title);
@@ -61,5 +58,6 @@ public class MovieDetail extends AppCompatActivity {
         // Get poster path and load the image with Picasso
         String fullPosterPath = BASE_IMAGE_URL + POSTER_SIZE + posterPath;
         Picasso.with(MovieDetail.this).load(fullPosterPath).into(mPosterImageView);
+    }
     }
 }

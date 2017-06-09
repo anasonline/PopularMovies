@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,17 +17,16 @@ import java.util.List;
  * Created by anas on 04.06.17.
  */
 
-public class MovieAdapter extends ArrayAdapter<Movie> {
-
-    private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
+class MovieAdapter extends ArrayAdapter<Movie> {
 
     public MovieAdapter(Activity context, List<Movie> movies) {
 
         super(context, 0, movies);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Check if there is an existing list item view (called convertView) that we can reuse,
         // otherwise, if convertView is null, then inflate a new list item layout.
         View gridItemView = convertView;
@@ -43,7 +43,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         ImageView movieImage = (ImageView) gridItemView.findViewById(R.id.movie_image);
 
-        String posterPath = currentMovie.getPosterImageUrl();
+        String posterPath = currentMovie != null ? currentMovie.getPosterImageUrl() : null;
 
         String fullImagePath = "http://image.tmdb.org/t/p/w342" + posterPath;
 

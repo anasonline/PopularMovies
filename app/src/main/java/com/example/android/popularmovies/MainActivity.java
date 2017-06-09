@@ -39,14 +39,13 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private static final String LANGUAGE = "en-US";
 
     private MovieAdapter mAdapter;
-    private GridView mGridView;
 
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
 
     private String mSortBy;
 
-    public static URL buildUrl(String filterBy) {
+    private static URL buildUrl(String filterBy) {
 
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(filterBy)
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         mSortBy = POPULAR; //The default value is to sort movies by (popular)
 
         // Find a reference to the GridView in the layout
-        mGridView = (GridView) findViewById(R.id.movies_grid);
+        GridView mGridView = (GridView) findViewById(R.id.movies_grid);
 
         // Create a new adapter that takes an empty list of movies as input
         mAdapter = new MovieAdapter(MainActivity.this, new ArrayList<Movie>());
@@ -117,17 +116,13 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current news item that was clicked on
+                // Find the current movie item that was clicked on
                 Movie currentMovie = mAdapter.getItem(position);
 
                 Intent intent = new Intent(MainActivity.this, MovieDetail.class);
 
-                intent.putExtra("title", currentMovie.getTitle());
-                intent.putExtra("release_date", currentMovie.getReleaseDate());
-                intent.putExtra("rating", currentMovie.getRating());
-                intent.putExtra("plot", currentMovie.getPlot());
-                intent.putExtra("poster_image", currentMovie.getPosterImageUrl());
-                intent.putExtra("backdrop_image", currentMovie.getBackDropImageUrl());
+                // Put the Parcelable Movie object into an intent
+                intent.putExtra("EXTRA_MOVIE", currentMovie);
 
                 startActivity(intent);
             }
@@ -135,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     }
 
-    public void showErrorMessage() {
+    private void showErrorMessage() {
         mLoadingIndicator.setVisibility(View.GONE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
@@ -183,12 +178,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
             case R.id.sort_by_top_rated:
-
-                if (item.isChecked()) {
-                    item.setChecked(true);
+                item.setChecked(true);
+                if (actionBar != null) {
+                    actionBar.setTitle("Top Rated");
                 }
-
-                actionBar.setTitle("Top Rated");
                 mSortBy = TOP_RATED;
                 mAdapter.clear();
                 mLoadingIndicator.setVisibility(View.VISIBLE);
@@ -196,11 +189,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 return true;
 
             case R.id.sorty_by_popular:
-
-                if (!item.isChecked()) {
-                    item.setChecked(true);
+                item.setChecked(true);
+                if (actionBar != null) {
+                    actionBar.setTitle("Popular");
                 }
-                actionBar.setTitle("Popular");
                 mSortBy = POPULAR;
                 mAdapter.clear();
                 getLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
