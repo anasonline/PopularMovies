@@ -51,7 +51,6 @@ class MovieAdapter extends ArrayAdapter<Movie> {
 
         Log.v("MovieAdapter", fullImagePath);
 
-
         return gridItemView;
     }
 

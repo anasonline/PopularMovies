@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private static final String POPULAR = "popular";
     private static final String TOP_RATED = "top_rated";
     private static final String API_PARAM = "api_key";
-    private static final String API_KEY = "***REMOVED***";
+    private static final String API_KEY = "ADD_YOUR_KEY_HERE";
     private static final String SEPARATOR = "&";
     private static final String LANGUAGE = "en-US";
 
